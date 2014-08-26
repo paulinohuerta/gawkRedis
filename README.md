@@ -21,7 +21,8 @@ You can send comments, patches, questions [here on github](https://github.com/pa
    * [Lists](#lists)
    * [Sets](#sets)
    * [Sorted sets](#sorted-sets)
-   * [Pub/sub](#pubsub)
+   * [Pub/sub](#pubsub) 
+
 -----
 
 # Installing/Configuring
@@ -134,7 +135,9 @@ _**Description**_: Change the selected database for the current connection.
 ##### *Return value*
 `1` in case of success, `-1` in case of failure.
 ##### *Example*
+~~~
 select(c,5)
+~~~
 
 ### closeRedis, disconnect
 -----
@@ -663,7 +666,7 @@ print getbit(c,"key", 6) # 1
 print getbit(c,"key", 7) # 1
 ~~~
 
-### setBit
+### setbit
 -----
 _**Description**_: Changes a single bit of a string.
 
@@ -1278,7 +1281,7 @@ _**Description**_: Adds the string value to the head (left) of the list. Creates
 ##### *Return value*
 *number* The new length of the list in case of success, `-1` in case of Failure.
 
-##### *Examples*
+##### *Example*
 ~~~
 lpush(c,"list1","dd")
 ~~~
@@ -1341,6 +1344,7 @@ BEGIN{
   }
   closeRedis(c)
 }
+~~~
 
 ### lset
 -----
@@ -1380,7 +1384,7 @@ _**Description**_: Trims an existing list so that it will contain only a specifi
 
 ### rpush
 -----
-_**Description**_: Adds the string value to the tail (right) of the list. Creates the list if the key didn't exist. If the key exists and is not a list, `FALSE` is returned.
+_**Description**_: Adds the string value to the tail (right) of the list. Creates the list if the key didn't exist. If the key exists and is not a list, `-1` is returned.
 
 ##### *Parameters*
 *number*: connection  
@@ -1416,18 +1420,18 @@ If the list didn't exist or is empty, the command returns 0. If the data type id
 
 ## Sets
 
-* [sAdd](#sadd) - Add one or more members to a set
-* [sCard, sSize](#scard-ssize) - Get the number of members in a set
-* [sDiff](#sdiff) - Subtract multiple sets
-* [sDiffStore](#sdiffstore) - Subtract multiple sets and store the resulting set in a key
-* [sInter](#sinter) - Intersect multiple sets
-* [sInterStore](#sinterstore) - Intersect multiple sets and store the resulting set in a key
-* [sIsMember, sContains](#sismember-scontains) - Determine if a given value is a member of a set
-* [sMembers, sGetMembers](#smembers-sgetmembers) - Get all the members in a set
-* [sMove](#smove) - Move a member from one set to another
-* [sPop](#spop) - Remove and return a random member from a set
-* [sRandMember](#srandmember) - Get one or multiple random members from a set
-* [sRem, sRemove](#srem-sremove) - Remove one or more members from a set
+* [sadd](#sadd) - Add one or more members to a set
+* [scard, sSize](#scard-ssize) - Get the number of members in a set
+* [sdiff](#sdiff) - Subtract multiple sets
+* [sinter](#sinter) - Intersect multiple sets
+* [sinterstore](#sinterstore) - Intersect multiple sets and store the resulting set in a key
+* [sismember](#sismember) - Determine if a given value is a member of a set
+* [smembers](#smembers) - Get all the members in a set
+* [smove](#smove) - Move a member from one set to another
+* [spop](#spop) - Remove and return a random member from a set
+* [sscan](#sscan) -
+* [srandmember](#srandmember) - Get one or multiple random members from a set
+* [srem](#srem) - Remove one or more members from a set
 * [sUnion](#sunion) - Add multiple sets
 * [sUnionStore](#sunionstore) - Add multiple sets and store the resulting set in a key
 
@@ -1436,14 +1440,14 @@ If the list didn't exist or is empty, the command returns 0. If the data type id
 ## Sorted sets
 
 * [zadd](#zadd) - Add one or more members to a sorted set or update its score if it already exists
-* [zcard, zSize](#zcard-zsize) - Get the number of members in a sorted set
+* [zcard](#zcard) - Get the number of members in a sorted set
 * [zcount](#zcount) - Count the members in a sorted set with scores within the given values
 * [zincrby](#zincrby) - Increment the score of a member in a sorted set
 * [zinterstore](#zinterstore) - Intersect multiple sorted sets and store the resulting sorted set in a new key
 * [zrange](#zrange) - Return a range of members in a sorted set, by index
-* [zrangeWithScore, zRevRangeByScore](#zrangebyscore-zrevrangebyscore) - Return a range of members in a sorted set, by score
-* [zrank, zrevrank](#zrank-zrevrank) - Determine the index of a member in a sorted set
-* [zrem](#zrem-zdelete) - Remove one or more members from a sorted set
+* [zrangeWithScores](#zrangeWithScores) - Return a range of members in a sorted set, by score
+* [zrank](#zrank) - Determine the index of a member in a sorted set
+* [zrem](#zrem) - Remove one or more members from a sorted set
 * [zscan](#zscan) - 
 * [zscore](#zscore) - Get the score associated with the given member in a sorted set
 * [zunionstore](#zunionstore) - Add multiple sorted sets and store the resulting sorted set in a new key
