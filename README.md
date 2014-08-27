@@ -1631,7 +1631,8 @@ BEGIN{
 ~~~
 
 
-## Pub/sub (Recommended reading about the paradigm [Pub/Sub](http://redis.io/topics/pubsub and the implemetation)
+## Pub/sub 
+Recommended reading about the paradigm [Pub/Sub](http://redis.io/topics/pubsub) and the implemetation
 
 * [publish](#publish) - Post a message to a channel
 * [subscribe](#subscribe) - Subscribe to channels
