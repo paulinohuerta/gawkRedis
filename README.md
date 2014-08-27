@@ -768,7 +768,8 @@ _**Description**_: iterates the set of keys. Please read how it works from Redis
 *string (optional)*: for to `match` a given glob-style pattern, similarly to the behavior of the `keys` function that takes a pattern as only argument
 
 ##### *Return value*
-`1` or `0` on the last iteration (when the returned cursor is equal 0). Returns `1` on error. 
+`1` on success,  or `0` on the last iteration (when the returned cursor is equal 0). Returns `-1` on error. 
+
 
 ##### *Example*
 ~~~
@@ -935,6 +936,7 @@ restore(c,"bar",0,val)  # The key "bar", will now be equal to the key "foo"
 ### hset
 -----
 _**Description**_: Adds a value to the hash stored at key. If this value is already in the hash, `FALSE` is returned.  
+
 ##### *Parameters*
 *number*: connection  
 *string*: key name.  
@@ -1100,7 +1102,7 @@ The order is random and corresponds to redis' own internal representation of the
 
 ### hscan
 -----
-_**Description**_: iterates elements of Hash types. Please read how it works from Redis [scan](http://redis.io/commands/hscan) command.
+_**Description**_: iterates elements of Hash types. Please read how it works from Redis [hscan](http://redis.io/commands/hscan) command.
 
 ##### *Parameters*
 *number*: connection  
@@ -1110,7 +1112,7 @@ _**Description**_: iterates elements of Hash types. Please read how it works fro
 *string (optional)*: for to `match` a given glob-style pattern, similarly to the behavior of the `keys` function that takes a pattern as only argument
 
 ##### *Return value*
-`1` or `0` on the last iteration (when the returned cursor is equal 0). Returns `-1` on error (by example a WRONGTYPE Operation).
+`1` on success  or `0` on the last iteration (when the returned cursor is equal 0). Returns `-1` on error (by example a WRONGTYPE Operation).
 
 ##### *Example*
 ~~~
@@ -1525,7 +1527,7 @@ If the list didn't exist or is empty, the command returns 0. If the data type id
 
 ### sscan
 -----
-_**Description**_: iterates elements of Sets types. Please read how it works from Redis [scan](http://redis.io/commands/sscan) command.
+_**Description**_: iterates elements of Sets types. Please read how it works from Redis [sscan](http://redis.io/commands/sscan) command.
 
 ##### *Parameters*
 *number*: connection  
@@ -1535,7 +1537,7 @@ _**Description**_: iterates elements of Sets types. Please read how it works fro
 *string (optional)*: for to `match` a given glob-style pattern, similarly to the behavior of the `keys` function that takes a pattern as only argument
 
 ##### *Return value*
-`1` or `0` on the last iteration (when the returned cursor is equal 0). Returns `1` on error (by example a WRONGTYPE Operation).
+`1` on success or `0` on the last iteration (when the returned cursor is equal 0). Returns `-1` on error (by example a WRONGTYPE Operation).
 
 ##### *Example*
 ~~~
@@ -1586,7 +1588,7 @@ BEGIN{
 
 ### zscan
 -----
-_**Description**_: iterates elements of Sets types. Please read how it works from Redis [scan](http://redis.io/commands/zscan) command.
+_**Description**_: iterates elements of Sets types. Please read how it works from Redis [zscan](http://redis.io/commands/zscan) command.
 
 ##### *Parameters*
 *number*: connection  
@@ -1596,7 +1598,7 @@ _**Description**_: iterates elements of Sets types. Please read how it works fro
 *string (optional)*: for to `match` a given glob-style pattern, similarly to the behavior of the `keys` function that takes a pattern as only argument
 
 ##### *Return value*
-`1` or `0` on the last iteration (when the returned cursor is equal 0). Returns `1` on error (by example a WRONGTYPE Operation).
+`1` on success or `0` on the last iteration (when the returned cursor is equal 0). Returns `-1` on error (by example a WRONGTYPE Operation).
 
 ##### *Example*
 ~~~
