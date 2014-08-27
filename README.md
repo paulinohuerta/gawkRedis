@@ -215,8 +215,9 @@ _**Description**_: Sends a string to Redis, which replies with the same string
 * [randomkey](#randomkey) - Return a random key from the keyspace
 * [rename](#rename) - Rename a key
 * [renamenx](#renamenx) - Rename a key, only if the new key does not exist
-* [type](#type) - Determine the type stored at key
 * [sort](#sort) - Sort the elements in a list, set or sorted set
+* [scan](#scan) - iterates the set of keys in the currently selected Redis db
+* [type](#type) - Determine the type stored at key
 * [ttl, pttl](#ttl-pttl) - Get the time to live for a key
 * [restore](#restore) - Create a key using the provided serialized value, previously obtained with [dump](#dump).
 
@@ -757,6 +758,48 @@ for(i in AR){
 print "-----"
 ~~~
 
+### scan
+-----
+_**Description**_: iterates the set of keys. Please read how it works from Redis [scan](http://redis.io/commands/scan) command
+##### *Parameters*
+*number*: connection  
+*number*: the cursor  
+*array*:  for to hold the results  
+*string (optional)*: for to `match` a given glob-style pattern, similarly to the behavior of the `keys` function that takes a pattern as only argument
+
+##### *Return value*
+`1` or `0` on the last iteration (when the returned cursor is equal 0). Returns `1` on error. 
+
+##### *Example*
+~~~
+@load "redis"
+BEGIN{
+  c=connectRedis()
+  num=0
+  while(1){
+   ret=scan(c,num,AR,"s*") # the last parameter (the pattern "s*"), is optional
+   if(ret==-1){
+     print ERRNO
+     closeRedis(c)
+     exit
+   }
+   if(ret==0){
+     break
+   }  
+   n=length(AR)
+   for(i=2;i<=n;i++) {
+     print AR[i]
+   }
+   num=AR[1]  # AR[1] contains the cursor
+   delete(AR)
+  }
+  for(i=2;i<=length(AR);i++) {
+     print AR[i]
+  }
+  closeRedis(c)
+}
+~~~
+
 ### ttl, pttl
 -----
 _**Description**_: Returns the time to live left for a given key in seconds (ttl), or milliseconds (pttl).
@@ -886,6 +929,7 @@ restore(c,"bar",0,val)  # The key "bar", will now be equal to the key "foo"
 * [hmset](#hmset) - Set multiple hash fields to multiple values
 * [hset](#hset) - Set the string value of a hash field
 * [hsetnx](#hsetnx) - Set the value of a hash field, only if the field does not exist
+* [hscan](#hscan) - Iterates elements of Hash types
 * [hvals](#hvals) - Get all the values in a hash
 
 ### hset
@@ -1053,6 +1097,50 @@ BEGIN{
 ~~~
 
 The order is random and corresponds to redis' own internal representation of the structure.
+
+### hscan
+-----
+_**Description**_: iterates elements of Hash types. Please read how it works from Redis [scan](http://redis.io/commands/hscan) command.
+
+##### *Parameters*
+*number*: connection  
+*string*: key name  
+*number*: the cursor  
+*array*:  for to hold the results  
+*string (optional)*: for to `match` a given glob-style pattern, similarly to the behavior of the `keys` function that takes a pattern as only argument
+
+##### *Return value*
+`1` or `0` on the last iteration (when the returned cursor is equal 0). Returns `-1` on error (by example a WRONGTYPE Operation).
+
+##### *Example*
+~~~
+@load "redis"
+BEGIN{
+  c=connectRedis()
+  num=0
+  while(1){
+   ret=hscan(c,"myhash",num,AR)
+   if(ret==-1){
+     print ERRNO
+     closeRedis(c)
+     exit
+   }
+   if(ret==0){
+     break
+   }  
+   n=length(AR)
+   for(i=2;i<=n;i++) {
+     print AR[i]
+   }
+   num=AR[1]  # AR[1] contains the cursor
+   delete(AR)
+  }
+  for(i=2;i<=length(AR);i++) {
+     print AR[i]
+  }
+  closeRedis(c)
+}
+~~~
 
 
 ### hexists
@@ -1429,12 +1517,55 @@ If the list didn't exist or is empty, the command returns 0. If the data type id
 * [smembers](#smembers) - Get all the members in a set
 * [smove](#smove) - Move a member from one set to another
 * [spop](#spop) - Remove and return a random member from a set
-* [sscan](#sscan) -
+* [sscan](#sscan) - Iterates elements of Sets types
 * [srandmember](#srandmember) - Get one or multiple random members from a set
 * [srem](#srem) - Remove one or more members from a set
 * [sUnion](#sunion) - Add multiple sets
 * [sUnionStore](#sunionstore) - Add multiple sets and store the resulting set in a key
 
+### sscan
+-----
+_**Description**_: iterates elements of Sets types. Please read how it works from Redis [scan](http://redis.io/commands/sscan) command.
+
+##### *Parameters*
+*number*: connection  
+*string*: key name  
+*number*: the cursor  
+*array*:  for to hold the results  
+*string (optional)*: for to `match` a given glob-style pattern, similarly to the behavior of the `keys` function that takes a pattern as only argument
+
+##### *Return value*
+`1` or `0` on the last iteration (when the returned cursor is equal 0). Returns `1` on error (by example a WRONGTYPE Operation).
+
+##### *Example*
+~~~
+@load "redis"
+BEGIN{
+  c=connectRedis()
+  num=0
+  while(1){
+   ret=sscan(c,"myset",num,AR)
+   if(ret==-1){
+     print ERRNO
+     closeRedis(c)
+     exit
+   }
+   if(ret==0){
+     break
+   }  
+   n=length(AR)
+   for(i=2;i<=n;i++) {
+     print AR[i]
+   }
+   num=AR[1]  # AR[1] contains the cursor
+   delete(AR)
+  }
+  for(i=2;i<=length(AR);i++) {
+     print AR[i]
+  }
+  closeRedis(c)
+}
+~~~
 
 
 ## Sorted sets
@@ -1448,9 +1579,54 @@ If the list didn't exist or is empty, the command returns 0. If the data type id
 * [zrangeWithScores](#zrangeWithScores) - Return a range of members in a sorted set, by score
 * [zrank](#zrank) - Determine the index of a member in a sorted set
 * [zrem](#zrem) - Remove one or more members from a sorted set
-* [zscan](#zscan) - 
+* [zscan](#zscan) - iterates elements of Sorted Set types
 * [zscore](#zscore) - Get the score associated with the given member in a sorted set
 * [zunionstore](#zunionstore) - Add multiple sorted sets and store the resulting sorted set in a new key
+
+
+### zscan
+-----
+_**Description**_: iterates elements of Sets types. Please read how it works from Redis [scan](http://redis.io/commands/zscan) command.
+
+##### *Parameters*
+*number*: connection  
+*string*: key name  
+*number*: the cursor  
+*array*:  for to hold the results  
+*string (optional)*: for to `match` a given glob-style pattern, similarly to the behavior of the `keys` function that takes a pattern as only argument
+
+##### *Return value*
+`1` or `0` on the last iteration (when the returned cursor is equal 0). Returns `1` on error (by example a WRONGTYPE Operation).
+
+##### *Example*
+~~~
+@load "redis"
+BEGIN{
+  c=connectRedis()
+  num=0
+  while(1){
+   ret=zscan(c,"myzset1",num,AR)
+   if(ret==-1){
+     print ERRNO
+     closeRedis(c)
+     exit
+   }
+   if(ret==0){
+     break
+   }
+   n=length(AR)
+   for(i=2;i<=n;i++) {
+     print AR[i]
+   }
+   num=AR[1]  # AR[1] contains the cursor
+   delete(AR)
+  }
+  for(i=2;i<=length(AR);i++) {
+     print AR[i]
+  }
+  closeRedis(c)
+}
+~~~
 
 
 ## Pub/sub

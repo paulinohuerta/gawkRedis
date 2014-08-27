@@ -609,12 +609,6 @@ int theReplyArrayS(awk_array_t array, enum resultArray r,size_t incr){
     awk_value_t tmp;
     stnull[0]='\0';
     r=incr=0;
-    if(reply->elements==0) {
-      return 0;
-    }
-    if(reply->element[1]->elements == 0) {
-        return 0;
-    }
     if(reply->element[1]->elements > 0) {
       sprintf(str,"%d",1);
       array_set(array,str,
@@ -626,6 +620,16 @@ int theReplyArrayS(awk_array_t array, enum resultArray r,size_t incr){
       }
       if(strcmp(reply->element[0]->str,"0")==0) {
         return 0;
+      }
+    }
+    else {
+      if(strcmp(reply->element[0]->str,"0")==0) {
+        return 0;
+      }
+      else {
+       sprintf(str,"%d",1);
+       array_set(array,str,
+         make_const_string(reply->element[0]->str,reply->element[0]->len, & tmp));
       }
     }
     return 1;
@@ -800,6 +804,11 @@ awk_value_t * tipoSscan(int nargs,awk_value_t *result,const char *command) {
          freeReplyObject(reply);
          return make_number(0, result);
       }
+    }
+    if(reply->type==REDIS_REPLY_ERROR){
+       set_ERRNO(_(reply->str));
+       freeReplyObject(reply);
+       return make_number(-1, result);
     }
   }
   else {
