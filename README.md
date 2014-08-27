@@ -1229,7 +1229,7 @@ _**Description**_: Retrieve the values associated to the specified fields in the
 
 ##### *Parameters*
 *number*: connection  
-*string: key name  
+*string*: key name  
 *array* contains field names  
 *array* contains results, a sequence of values associated with the given fields, in the same order as they are requested. For every field that does not exist in the hash, a null string (empty string) is associated.
 
@@ -1631,11 +1631,11 @@ BEGIN{
 ~~~
 
 
-## Pub/sub
+## Pub/sub (Recommended reading about the paradigm [Pub/Sub](http://redis.io/topics/pubsub and the implemetation)
 
 * [publish](#publish) - Post a message to a channel
 * [subscribe](#subscribe) - Subscribe to channels
-* [getMessage](#getMessage) - 
+* [getMessage](#getmessage) - Way in which a subscriber consumes a message 
 
 
 ### publish
@@ -1679,7 +1679,7 @@ subscribe(c,CH)  # returns 1, subscribes to chan-1, chan-2 and chan-3
 
 ### getMessage
 -----
-_**Description**_: 
+_**Description**_: Gets a message from any of the subscribed channels, (based at hiredis API redisGetReply for to consume messages).
 
 ##### *Parameters*
 *number*: connection  
