@@ -31,7 +31,7 @@ Everything you should need to install gawkRedis on your system.
  And to finish the installation, you can check that was created `/path-to-gawk/lib/gawk/redis.so`, in this case you could try to test the "Redis extension" with a "gawk script" that you can get from the README.md file
  
 ---
-From here it is convenient to follow the [README.md](http://sourceforge.net/u/paulinohuerta/gawkextlib/ci/master/tree/README.md)
+From here it is convenient to follow the [README.md](http://sourceforge.net/u/paulinohuerta/gawkextlib/ci/master/tree/README.md), from the sourceforge repository, as well as working with that project. 
 ---
 ---
 
