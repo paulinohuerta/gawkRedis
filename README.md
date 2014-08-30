@@ -1,5 +1,39 @@
 gawkRedis
 =========
+***
+***
+
+>This project has become a forked from gawkextlib, and hosted in sourceforge: http://sourceforge.net/u/paulinohuerta/gawkextlib/ci/master/tree/
+and you can see the updated documentation from
+http://sourceforge.net/u/paulinohuerta/gawkextlib/ci/master/tree/README.md
+
+***
+***
+
+# Installing/Configuring
+-----
+
+Everything you should need to install gawkRedis on your system.
+
+## Installation
+
+* Install [hiredis](https://github.com/redis/hiredis), library C client for Redis.
+
+* Install [gawkRedis](http://sourceforge.net/u/paulinohuerta/gawkextlib/ci/master/tree/).
+
+  To see [README file](http://sourceforge.net/u/paulinohuerta/gawkextlib/ci/master/tree/README)
+  
+  In any case you should start with a git clone:
+  
+ `git clone git://git.code.sf.net/u/paulinohuerta/gawkextlib u-paulinohuerta-gawkextlib`
+ 
+
+ And to finish the installation, you can check that was created `/path-to-gawk/lib/gawk/redis.so`, in this case you could try to test the "Redis extension" with a "gawk script" that you can get from the README.md file
+ 
+---
+From here it is convenient to follow the [README.md](http://sourceforge.net/u/paulinohuerta/gawkextlib/ci/master/tree/)
+---
+---
 
 A [GAWK](https://www.gnu.org/software/gawk/) (the GNU implementation of the AWK Programming Language) client library for Redis.
 
